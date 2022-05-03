@@ -1,4 +1,4 @@
-# Remote Access Trojaner
+# Remote Access Trojan
 
 > Install Python 3.x on your pc
 
